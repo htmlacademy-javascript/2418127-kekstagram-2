@@ -8,10 +8,10 @@ console.log('3. Ожидаю "false", получаю - ', checkLength('Тут б
 function isPalindrome (string) {
   const normalizeString = string.replaceAll(' ', '').toLowerCase();
   let reversedString = '';
-  for (let i = string.length - 1; i >= 0; i--) {
-    reversedString += string[i];
+  for (let i = normalizeString.length - 1; i >= 0; i--) {
+    reversedString += normalizeString[i];
   }
-  return normalizeString === reversedString.replaceAll(' ', '').toLowerCase();
+  return normalizeString === reversedString;
 }
 
 console.log('1.Ожидаю true, получаю -', isPalindrome('топот'));
@@ -30,7 +30,7 @@ function isolateNumbers (letterWithNumbers) {
       result += letterWithNumbers[i];
     }
   }
-  return result === '' ? 'NaN' : Number(result);
+  return result === '' ? NaN : Number(result);
 }
 
 console.log('1. Ожидаю "2023", получаю -', isolateNumbers('2023 год'));
