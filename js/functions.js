@@ -42,3 +42,25 @@ function isolateNumbers (letterWithNumbers) {
 // console.log('7. Ожидаю "1", получаю -', isolateNumbers('-1'));
 // console.log('8. Ожидаю "15", получаю -', isolateNumbers('1.5'));
 
+const convertToMinutes = (timeInString) => {
+  const splitTime = timeInString.split(':');
+  return parseInt(splitTime[0], 10) * 60 + parseInt(splitTime[1], 10);
+};
+
+const checkTimeMeeting = (startDay, finishDay, startMeeting, durationMeeting) => {
+  const startDayMinutes = convertToMinutes(startDay);
+  const finishDayMinutes = convertToMinutes(finishDay);
+  const startMeetingMinutes = convertToMinutes(startMeeting);
+  const endMeetingMinutes = startMeetingMinutes + durationMeeting;
+
+  return (
+    startMeetingMinutes >= startDayMinutes &&
+    endMeetingMinutes <= finishDayMinutes
+  );
+};
+
+// console.log(checkTimeMeeting('08:00', '17:30', '14:00', 90));
+// console.log(checkTimeMeeting('8:0', '10:0', '8:0', 120));
+// console.log(checkTimeMeeting('08:00', '14:30', '14:00', 90));
+// console.log(checkTimeMeeting('14:00', '17:30', '08:0', 90));
+// console.log(checkTimeMeeting('8:00', '17:30', '08:00', 900));
