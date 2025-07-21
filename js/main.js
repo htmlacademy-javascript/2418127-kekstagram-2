@@ -1,6 +1,3 @@
-import './util.js';
-import {createArrayOfPhotos} from './data.js';
+import './pictures.js';
 
-console.log(
-  createArrayOfPhotos()
-);
+
