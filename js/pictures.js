@@ -1,4 +1,5 @@
 import {createArrayOfPhotos} from './data.js';
+import {openBigPicture} from './full_pictures.js';
 
 const pictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
@@ -15,6 +16,10 @@ arrayOfPictures.forEach(({url, description, likes, comments}) => {
   pictureElement.querySelector('.picture__img').alt = description;
   pictureElement.querySelector('.picture__likes').textContent = likes;
   pictureElement.querySelector('.picture__comments').textContent = comments.length;
+
+  pictureElement.addEventListener('click', () => {
+    openBigPicture({url, description, likes, comments});
+  });
 
   pictureFragment.appendChild(pictureElement);
 });
