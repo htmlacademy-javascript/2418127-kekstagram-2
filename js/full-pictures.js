@@ -1,3 +1,5 @@
+const COMMENTS_SIZE = 5;
+
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
 const likesCount = bigPicture.querySelector('.likes-count');
@@ -9,33 +11,35 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 const commentCountBlock = bigPicture.querySelector('.social__comment-count');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 
-const COMMENTS_SIZE = 5;
-
 let currentComments = [];
 let commentsShownNow = 0;
 
 function renderComments() {
   const nextComments = currentComments.slice(commentsShownNow, commentsShownNow + COMMENTS_SIZE);
 
-  nextComments.forEach(({avatar, name, message}) => {
+  const fragment = document.createDocumentFragment();
+
+  nextComments.forEach((comment) => {
     const li = document.createElement('li');
     li.classList.add('social__comment');
 
     const img = document.createElement('img');
     img.classList.add('social__picture');
-    img.src = avatar;
-    img.alt = name;
+    img.src = comment.avatar;
+    img.alt = comment.name;
     img.width = 35;
     img.height = 35;
 
     const p = document.createElement('p');
     p.classList.add('social__text');
-    p.textContent = message;
+    p.textContent = comment.message;
 
     li.appendChild(img);
     li.appendChild(p);
-    commentsContainer.appendChild(li);
+    fragment.appendChild(li);
   });
+
+  commentsContainer.appendChild(fragment);
 
   commentsShownNow += nextComments.length;
   commentShownCount.textContent = commentsShownNow;
@@ -47,20 +51,20 @@ function renderComments() {
   }
 }
 
-function openBigPicture({url, description, likes, comments}) {
+function openBigPicture(photoData) {
   bigPicture.classList.remove('hidden');
-  bigPictureImg.src = url;
-  bigPictureImg.alt = description;
-  likesCount.textContent = likes;
-  commentTotalCount.textContent = comments.length;
-  socialCaption.textContent = description;
+  bigPictureImg.src = photoData.url;
+  bigPictureImg.alt = photoData.description;
+  likesCount.textContent = photoData.likes;
+  commentTotalCount.textContent = photoData.comments.length;
+  socialCaption.textContent = photoData.description;
 
   commentCountBlock.classList.remove('hidden');
   commentsLoader.classList.remove('hidden');
 
   commentsContainer.innerHTML = '';
 
-  currentComments = comments;
+  currentComments = photoData.comments;
   commentsShownNow = 0;
 
   renderComments();
@@ -81,8 +85,6 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
-commentsLoader.addEventListener('click', () => {
-  renderComments();
-});
+commentsLoader.addEventListener('click', renderComments);
 
-export {openBigPicture, closeBigPicture};
+export { openBigPicture, closeBigPicture };

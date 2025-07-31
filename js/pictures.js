@@ -1,5 +1,5 @@
 import {createArrayOfPhotos} from './data.js';
-import {openBigPicture} from './full_pictures.js';
+import {openBigPicture} from './full-pictures.js';
 
 const pictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
@@ -10,15 +10,16 @@ const arrayOfPictures = createArrayOfPhotos();
 
 const pictureFragment = document.createDocumentFragment();
 
-arrayOfPictures.forEach(({url, description, likes, comments}) => {
+arrayOfPictures.forEach((photo) => {
   const pictureElement = pictureTemplate.cloneNode(true);
-  pictureElement.querySelector('.picture__img').src = url;
-  pictureElement.querySelector('.picture__img').alt = description;
-  pictureElement.querySelector('.picture__likes').textContent = likes;
-  pictureElement.querySelector('.picture__comments').textContent = comments.length;
+
+  pictureElement.querySelector('.picture__img').src = photo.url;
+  pictureElement.querySelector('.picture__img').alt = photo.description;
+  pictureElement.querySelector('.picture__likes').textContent = photo.likes;
+  pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
 
   pictureElement.addEventListener('click', () => {
-    openBigPicture({url, description, likes, comments});
+    openBigPicture(photo);
   });
 
   pictureFragment.appendChild(pictureElement);
