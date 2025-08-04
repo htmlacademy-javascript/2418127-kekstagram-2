@@ -1,3 +1,5 @@
+import {resetAll} from './image-effects';
+
 const MAX_HASHTAG_COUNT = 5;
 const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_COMMENT_LENGTH = 140;
@@ -19,6 +21,7 @@ const pristine = new Pristine(form, {
 const openModal = () => {
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  resetAll();
 };
 
 const closeModal = () => {
@@ -26,18 +29,14 @@ const closeModal = () => {
   document.body.classList.remove('modal-open');
   form.reset();
   pristine.reset();
+  uploadFileInput.value = '';
 };
 
-uploadFileInput.addEventListener('change', () => {
-  openModal();
-  uploadFileInput.value = '';
-});
+uploadFileInput.addEventListener('change', openModal);
 
-cancelButton.addEventListener('click', () => {
-  closeModal();
-});
+cancelButton.addEventListener('click', closeModal);
 
-document.addEventListener('keydown', (evt) => {
+function handleKeyDown(evt) {
   if (evt.key === 'Escape') {
     if (
       document.activeElement === hashtagInput ||
@@ -50,7 +49,9 @@ document.addEventListener('keydown', (evt) => {
     }
     closeModal();
   }
-});
+}
+
+document.addEventListener('keydown', handleKeyDown);
 
 const validateHashtags = (value) => {
   if (!value) {
