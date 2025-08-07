@@ -16,8 +16,6 @@ const showDataErrorMessage = () => {
   }, 5000);
 };
 
-window.showDataErrorMessage = showDataErrorMessage;
-
 const renderPhotos = (arrayOfPictures) => {
   const pictureFragment = document.createDocumentFragment();
 
