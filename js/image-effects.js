@@ -3,6 +3,11 @@ const SCALE_MIN = 25;
 const SCALE_MAX = 100;
 const SCALE_DEFAULT = 100;
 
+const SLIDER_DEFAULT_MIN = 0;
+const SLIDER_DEFAULT_MAX = 100;
+const SLIDER_DEFAULT_START = 100;
+const SLIDER_DEFAULT_STEP = 1;
+
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
 const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlBigger = document.querySelector('.scale__control--bigger');
@@ -13,7 +18,6 @@ const effectLevelSlider = effectLevel.querySelector('.effect-level__slider');
 const effectLevelValue = effectLevel.querySelector('.effect-level__value');
 
 const effectsList = document.querySelector('.effects__list');
-const closeButton = document.querySelector('#upload-cancel');
 
 function createEffect({name, filter, min, max, step, unit = '', start, sliderVisible}) {
   return {
@@ -117,9 +121,9 @@ scaleControlBigger.addEventListener('click', () => {
 });
 
 noUiSlider.create(effectLevelSlider, {
-  range: { min: 0, max: 100 },
-  start: 100,
-  step: 1,
+  range: { min: SLIDER_DEFAULT_MIN, max: SLIDER_DEFAULT_MAX },
+  start: SLIDER_DEFAULT_START,
+  step: SLIDER_DEFAULT_STEP,
   connect: 'lower',
   format: {
     to: (value) => Number.isInteger(value) ? value.toString() : value.toFixed(1),
@@ -137,7 +141,7 @@ function resetEffectLevel() {
   effectLevelValue.value = currentEffect.start;
   effectLevelSlider.noUiSlider.updateOptions({
     range: { min: currentEffect.min, max: currentEffect.max },
-    start: currentEffect.start,
+    start: [currentEffect.start],
     step: currentEffect.step,
   });
   effectLevel.style.display = currentEffect.sliderVisible ? 'block' : 'none';
@@ -167,7 +171,5 @@ function resetAll() {
     originalRadio.checked = true;
   }
 }
-
-closeButton.addEventListener('click', resetAll);
 
 export {resetAll};
