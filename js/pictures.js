@@ -1,4 +1,3 @@
-import {getData} from './api.js';
 import {openBigPicture} from './full-pictures.js';
 
 const pictures = document.querySelector('.pictures');
@@ -6,14 +5,8 @@ const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const showDataErrorMessage = () => {
-  const template = document.querySelector('#data-error').content.querySelector('.data-error');
-  const errorElement = template.cloneNode(true);
-  document.body.appendChild(errorElement);
-
-  setTimeout(() => {
-    errorElement.remove();
-  }, 5000);
+const clearPhotos = () => {
+  pictures.querySelectorAll('.picture').forEach((el) => el.remove());
 };
 
 const renderPhotos = (arrayOfPictures) => {
@@ -38,6 +31,4 @@ const renderPhotos = (arrayOfPictures) => {
   pictures.appendChild(pictureFragment);
 };
 
-getData()
-  .then(renderPhotos)
-  .catch(showDataErrorMessage);
+export { renderPhotos, clearPhotos };
