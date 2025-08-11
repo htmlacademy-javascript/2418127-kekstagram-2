@@ -14,7 +14,7 @@ const form = document.querySelector('.img-upload__form');
 const cancelButton = document.querySelector('#upload-cancel');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
-const submitButton = form.querySelector('.img-upload__submit');
+const submitButton = document.querySelector('.img-upload__submit');
 
 
 const imgPreview = document.querySelector('.img-upload__preview img');
@@ -33,14 +33,33 @@ const pristine = new Pristine(form, {
 });
 
 
-const openModal = () => {
-  overlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  resetAll(); // чтобы убрать слайдер для эффекта Оригинал при первом открытии
+// NEW: контроллер модалки как один объект с методами
+const uploadModal = {};
+uploadModal.onDocumentKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    if (document.activeElement === hashtagInput || document.activeElement === commentInput) {
+      return;
+    }
+    if (document.querySelector('.success, .error')) {
+      return;
+    }
+    if (!overlay.classList.contains('hidden')) {
+      evt.preventDefault();
+      uploadModal.close(); // NEW
+    }
+  }
 };
 
 
-const closeModal = () => {
+uploadModal.open = () => {
+  overlay.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  resetAll(); // чтобы убрать слайдер для эффекта Оригинал при первом открытии
+  document.addEventListener('keydown', uploadModal.onDocumentKeydown); // NEW
+};
+
+
+uploadModal.close = () => {
   overlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   form.reset();
@@ -57,6 +76,7 @@ const closeModal = () => {
 
 
   uploadFileInput.value = '';
+  document.removeEventListener('keydown', uploadModal.onDocumentKeydown); // NEW
 };
 
 
@@ -96,38 +116,21 @@ uploadFileInput.addEventListener('change', () => {
 
   imgPreview.src = objectUrl;
   effectsPreviews.forEach((preview) => {
-    // Важно: формируем строку CSS, а не вызываем "url" как функцию
     preview.style.backgroundImage = `url("${ objectUrl }")`;
   });
 
 
-  openModal();
+  uploadModal.open(); // NEW
 });
 
 
 cancelButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  closeModal();
+  uploadModal.close(); // NEW
 });
 
 
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape') {
-    // Если фокус в полях ввода — не закрываем модалку
-    if (document.activeElement === hashtagInput || document.activeElement === commentInput) {
-      return;
-    }
-    // Если показано сообщение успеха/ошибки — Esc обрабатывается там
-    if (document.querySelector('.success, .error')) {
-      return;
-    }
-    // Закрываем модалку только если она открыта
-    if (!overlay.classList.contains('hidden')) {
-      evt.preventDefault();
-      closeModal();
-    }
-  }
-});
+// CHANGED: глобальный document.addEventListener('keydown', …) удалён — обработчик добавляется/снимается uploadModal.open/close
 
 
 const validateHashtags = (value) => {
@@ -187,7 +190,7 @@ form.addEventListener('submit', (evt) => {
 
   sendData(formData)
     .then(() => {
-      closeModal();
+      uploadModal.close(); // NEW
       showSuccessMessage();
     })
     .catch(() => {

@@ -6,6 +6,7 @@ import { initFilters } from './filters.js';
 import './form.js';
 import './image-effects.js';
 
+const DATA_ERROR_TIMEOUT = 5000;
 
 const imgFilters = document.querySelector('.img-filters');
 
@@ -17,7 +18,7 @@ const showDataErrorMessage = () => {
 
   setTimeout(() => {
     errorElement.remove();
-  }, 5000);
+  }, DATA_ERROR_TIMEOUT);
 };
 
 

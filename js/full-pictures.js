@@ -1,4 +1,5 @@
 const COMMENTS_SIZE = 5;
+const COMMENT_AVATAR_SIZE = 35;
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -14,6 +15,12 @@ const closeButton = bigPicture.querySelector('.big-picture__cancel');
 let currentComments = [];
 let commentsShownNow = 0;
 
+const onDocumentKeydown = (evt) => {
+  if (evt.key === 'Escape' && !bigPicture.classList.contains('hidden')) {
+    closeBigPicture();
+  }
+};
+
 function renderComments() {
   const nextComments = currentComments.slice(commentsShownNow, commentsShownNow + COMMENTS_SIZE);
 
@@ -27,8 +34,8 @@ function renderComments() {
     img.classList.add('social__picture');
     img.src = comment.avatar;
     img.alt = comment.name;
-    img.width = 35;
-    img.height = 35;
+    img.width = COMMENT_AVATAR_SIZE;
+    img.height = COMMENT_AVATAR_SIZE;
 
     const p = document.createElement('p');
     p.classList.add('social__text');
@@ -70,20 +77,16 @@ function openBigPicture(photoData) {
   renderComments();
 
   document.body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
 }
 
 function closeBigPicture() {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
 }
 
 closeButton.addEventListener('click', closeBigPicture);
-
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === 'Escape' && !bigPicture.classList.contains('hidden')) {
-    closeBigPicture();
-  }
-});
 
 commentsLoader.addEventListener('click', renderComments);
 

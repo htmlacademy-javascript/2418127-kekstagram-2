@@ -6,7 +6,6 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
-
 const getRandomSubset = (arr, count) => {
   const copy = arr.slice();
   for (let i = copy.length - 1; i > 0; i--) {
@@ -19,22 +18,15 @@ const getRandomSubset = (arr, count) => {
   return copy;
 };
 
-
 const getDiscussed = (arr) => arr.slice().sort((a, b) => b.comments.length - a.comments.length);
 
-
-// Допустимые расширения изображений
 const FILE_TYPES = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
-
-// Проверка допустимого типа файла по расширению
 const isAllowedFileType = (fileName, allowed = FILE_TYPES) => {
   const lower = String(fileName || '').toLowerCase();
   return allowed.some((ext) => lower.endsWith(ext));
 };
 
-
-// Менеджер Object URL для безопасной работы с URL.createObjectURL/URL.revokeObjectURL
 const makeObjectUrlManager = () => {
   let current = '';
   return {
@@ -58,8 +50,6 @@ const makeObjectUrlManager = () => {
   };
 };
 
-
-// Универсальный показ сообщения на основе template (#success, #error)
 const showMessage = (templateId) => {
   const blockName = String(templateId || '').replace(/^#/, '');
   if (!blockName) {

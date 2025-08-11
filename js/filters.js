@@ -10,10 +10,10 @@ const RANDOM_COUNT = 10;
 const DEBOUNCE_DELAY = 500;
 
 const imgFilters = document.querySelector('.img-filters');
+const filterButtons = imgFilters.querySelectorAll('.img-filters__button');
 
 const setActiveButton = (button) => {
-  imgFilters.querySelectorAll('.img-filters__button')
-    .forEach((btn) => btn.classList.remove('img-filters__button--active'));
+  filterButtons.forEach((btn) => btn.classList.remove('img-filters__button--active'));
   button.classList.add('img-filters__button--active');
 };
 
