@@ -70,6 +70,8 @@ const showMessage = (templateId) => {
 
 
   const messageElement = rootFromTemplate.cloneNode(true);
+  messageElement.style.display = 'block';
+  messageElement.classList.remove('hidden');
   document.body.appendChild(messageElement);
 
 

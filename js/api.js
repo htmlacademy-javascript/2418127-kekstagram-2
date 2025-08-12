@@ -1,23 +1,36 @@
-const GET_URL = 'https://31.javascript.htmlacademy.pro/kekstagram/data';
-const POST_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
-
-const getData = async () => {
-  const response = await fetch(GET_URL);
-  if (!response.ok) {
-    throw new Error(`Ошибка загрузки данных: ${response.status}`);
-  }
-  return await response.json();
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
 };
 
-const sendData = async (formData) => {
-  const response = await fetch(POST_URL, {
-    method: 'POST',
-    body: formData,
-  });
-  if (!response.ok) {
-    throw new Error(`Ошибка отправки данных: ${response.status}`);
-  }
-  return await response.json();
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
 };
 
-export {getData, sendData};
+const load = async (route, method = Method.GET, body = null) => {
+  const options = { method };
+  // eslint-disable-next-line eqeqeq
+  if (method === Method.POST && body != null) {
+    options.body = body;
+  }
+
+  const response = await fetch(`${BASE_URL}${route}`, options);
+
+  if (!response.ok) {
+    throw new Error(`Произошла ошибка ${response.status}: ${response.statusText}`);
+  }
+
+  const contentType = response.headers.get('content-type') || '';
+  if (contentType.includes('json')) {
+    return await response.json();
+  }
+
+
+};
+
+const getData = () => load(Route.GET_DATA);
+const sendData = (body) => load(Route.SEND_DATA, Method.POST, body);
+
+export { getData, sendData };
