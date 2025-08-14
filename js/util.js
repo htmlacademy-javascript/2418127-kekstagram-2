@@ -1,3 +1,7 @@
+const FILE_TYPES = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
   return (...args) => {
@@ -19,8 +23,6 @@ const getRandomSubset = (arr, count) => {
 };
 
 const getDiscussed = (arr) => arr.slice().sort((a, b) => b.comments.length - a.comments.length);
-
-const FILE_TYPES = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
 const isAllowedFileType = (fileName, allowed = FILE_TYPES) => {
   const lower = String(fileName || '').toLowerCase();
@@ -80,7 +82,7 @@ const showMessage = (templateId) => {
 
 
   const onEscKeyDown = (evt) => {
-    if (evt.key === 'Escape') {
+    if (isEscapeKey) {
       if (evt.stopImmediatePropagation) {
         evt.stopImmediatePropagation();
       }
@@ -126,6 +128,7 @@ const showMessage = (templateId) => {
 
 
 export {
+  isEscapeKey,
   debounce,
   getRandomSubset,
   getDiscussed,

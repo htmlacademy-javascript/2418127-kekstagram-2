@@ -1,6 +1,6 @@
 import {resetAll} from './image-effects.js';
 import {sendData} from './api.js';
-import { FILE_TYPES, isAllowedFileType, makeObjectUrlManager, showMessage } from './util.js';
+import { FILE_TYPES, isAllowedFileType, isEscapeKey, makeObjectUrlManager, showMessage } from './util.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const HASHTAG_REGEX = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -81,7 +81,7 @@ const initPristine = () => {
 
 const uploadModal = {};
 uploadModal.onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey) {
     if (document.activeElement === hashtagInput || document.activeElement === commentInput) {
       return;
     }

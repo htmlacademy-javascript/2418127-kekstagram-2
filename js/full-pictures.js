@@ -1,3 +1,5 @@
+import {isEscapeKey} from './util.js';
+
 const COMMENTS_SIZE = 5;
 const COMMENT_AVATAR_SIZE = 35;
 
@@ -16,7 +18,7 @@ let currentComments = [];
 let commentsShownNow = 0;
 
 const onDocumentKeydown = (evt) => {
-  if (evt.key === 'Escape' && !bigPicture.classList.contains('hidden')) {
+  if (isEscapeKey(evt) && !bigPicture.classList.contains('hidden')) {
     closeBigPicture();
   }
 };
