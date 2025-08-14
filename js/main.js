@@ -1,15 +1,10 @@
 import { getData } from './api.js';
 import { renderPhotos, clearPhotos } from './pictures.js';
 import { initFilters } from './filters.js';
-
-
 import './form.js';
 import './image-effects.js';
 
 const DATA_ERROR_TIMEOUT = 5000;
-
-const imgFilters = document.querySelector('.img-filters');
-
 
 const showDataErrorMessage = () => {
   const template = document.querySelector('#data-error').content.querySelector('.data-error');
@@ -21,11 +16,9 @@ const showDataErrorMessage = () => {
   }, DATA_ERROR_TIMEOUT);
 };
 
-
 getData()
   .then((photos) => {
     renderPhotos(photos);
-    imgFilters.classList.remove('img-filters--inactive');
     initFilters(photos, (updatedPhotos) => {
       clearPhotos();
       renderPhotos(updatedPhotos);

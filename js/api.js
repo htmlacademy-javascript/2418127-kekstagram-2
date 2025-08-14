@@ -11,8 +11,7 @@ const Method = {
 
 const load = async (route, method = Method.GET, body = null) => {
   const options = { method };
-  // eslint-disable-next-line eqeqeq
-  if (method === Method.POST && body != null) {
+  if (method === Method.POST && body !== null) {
     options.body = body;
   }
 
